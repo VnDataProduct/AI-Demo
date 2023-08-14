@@ -1,4 +1,8 @@
-langchain==v0.0.213
+langchain==v0.0.204
 streamlit==1.24.0
 streamlit-chat==0.1.0
 python-dotenv==1.0.0
+openai==0.27.7
+PyMuPDF==1.22.5
+faiss==1.5.3
+tiktoken==0.4.0

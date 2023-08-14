@@ -4,7 +4,7 @@ from langchain.document_loaders import PyMuPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import OpenAI
 from langchain.memory import VectorStoreRetrieverMemory
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import FAISS
 
 #For Streamlit to build UI
 from streamlit_chat import message
@@ -26,10 +26,13 @@ docs = loader.load()
 # Embedding does convert text to vector
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 # We create mem(Chroma) for the application.
-chroma_mem = Chroma.from_documents(documents=docs, embedding_function=embeddings)
+
+#chroma_mem = Chroma.from_documents(documents=docs, embedding_function=embeddings)
+#Change from Chroma to FAISS
+db = FAISS.from_documents(docs, embeddings)
 
 #We create Index, which indexes data on Chroma
-retriever = chroma_mem.as_retriever(search_kwargs=dict(k=5))
+retriever = db.as_retriever(search_kwargs=dict(k=5))
 #We create a VectorStore (Chroma Wrapper)
 memory = VectorStoreRetrieverMemory(retriever=retriever)
 
